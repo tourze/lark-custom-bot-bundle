@@ -11,7 +11,7 @@ use LarkCustomBotBundle\Entity\PostMessage;
 use LarkCustomBotBundle\Entity\ShareChatMessage;
 use LarkCustomBotBundle\Entity\TextMessage;
 use LarkCustomBotBundle\Request\FeishuRobotRequest;
-use LarkCustomBotBundle\Service\FeishuRequestService;
+use LarkCustomBotBundle\Service\LarkRequestService;
 
 #[AsEntityListener(event: Events::postPersist, method: 'postPersist', entity: TextMessage::class)]
 #[AsEntityListener(event: Events::postPersist, method: 'postPersist', entity: ImageMessage::class)]
@@ -20,7 +20,7 @@ use LarkCustomBotBundle\Service\FeishuRequestService;
 #[AsEntityListener(event: Events::postPersist, method: 'postPersist', entity: ShareChatMessage::class)]
 class MessageListener
 {
-    public function __construct(private readonly FeishuRequestService $feishuRequestService)
+    public function __construct(private readonly LarkRequestService $larkRequestService)
     {
     }
 
@@ -28,6 +28,6 @@ class MessageListener
     {
         $request = new FeishuRobotRequest();
         $request->setMessage($message);
-        $this->feishuRequestService->request($request);
+        $this->larkRequestService->request($request);
     }
 }

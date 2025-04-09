@@ -6,10 +6,9 @@ use HttpClientBundle\Client\ApiClient;
 use HttpClientBundle\Exception\HttpClientException;
 use HttpClientBundle\Request\RequestInterface;
 use Symfony\Contracts\HttpClient\ResponseInterface;
-use Yiisoft\Arrays\ArrayHelper;
 use Yiisoft\Json\Json;
 
-class FeishuRequestService extends ApiClient
+class LarkRequestService extends ApiClient
 {
     protected function getRequestUrl(RequestInterface $request): string
     {
@@ -29,7 +28,7 @@ class FeishuRequestService extends ApiClient
     protected function formatResponse(RequestInterface $request, ResponseInterface $response): array
     {
         $json = Json::decode($response->getContent());
-        $code = ArrayHelper::getValue($json, 'code');
+        $code = $json['code'] ?? 0;
         if ($code != 0) {
             throw new HttpClientException($request, $response, $code['msg']?? '请求失败');
         }
