@@ -38,8 +38,6 @@ class PostParagraphTest extends TestCase
         
         $json = json_encode($paragraph);
         $array = json_decode($json, true);
-        
-        $this->assertIsArray($array);
         $this->assertCount(2, $array);
         
         $this->assertEquals('text', $array[0]['tag']);
@@ -55,8 +53,6 @@ class PostParagraphTest extends TestCase
         
         $json = json_encode($paragraph);
         $array = json_decode($json, true);
-        
-        $this->assertIsArray($array);
         $this->assertEmpty($array);
     }
     

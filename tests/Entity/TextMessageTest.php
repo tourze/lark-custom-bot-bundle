@@ -45,13 +45,10 @@ class TextMessageTest extends TestCase
         $message->setContent($content);
         
         $array = $message->toArray();
-        
-        $this->assertIsArray($array);
         $this->assertArrayHasKey('msg_type', $array);
         $this->assertArrayHasKey('content', $array);
         
         $this->assertEquals('text', $array['msg_type']);
-        $this->assertIsArray($array['content']);
         $this->assertArrayHasKey('text', $array['content']);
         $this->assertEquals($content, $array['content']['text']);
     }

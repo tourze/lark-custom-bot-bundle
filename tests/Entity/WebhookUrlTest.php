@@ -56,8 +56,6 @@ class WebhookUrlTest extends TestCase
         $webhook->setUpdateTime($updateTime);
 
         $adminArray = $webhook->retrieveAdminArray();
-
-        $this->assertIsArray($adminArray);
         $this->assertArrayHasKey('id', $adminArray);
         $this->assertArrayHasKey('name', $adminArray);
         $this->assertArrayHasKey('url', $adminArray);

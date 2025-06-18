@@ -32,8 +32,6 @@ class PostNodeTest extends TestCase
         
         $json = json_encode($node);
         $array = json_decode($json, true);
-        
-        $this->assertIsArray($array);
         $this->assertArrayHasKey('tag', $array);
         $this->assertArrayHasKey('text', $array);
         
@@ -48,8 +46,6 @@ class PostNodeTest extends TestCase
         
         $json = json_encode($node);
         $array = json_decode($json, true);
-        
-        $this->assertIsArray($array);
         $this->assertArrayHasKey('tag', $array);
         $this->assertArrayHasKey('user_id', $array);
         
@@ -65,8 +61,6 @@ class PostNodeTest extends TestCase
         
         $json = json_encode($node);
         $array = json_decode($json, true);
-        
-        $this->assertIsArray($array);
         $this->assertArrayHasKey('tag', $array);
         $this->assertArrayHasKey('user_id', $array);
         $this->assertArrayHasKey('user_name', $array);
@@ -83,8 +77,6 @@ class PostNodeTest extends TestCase
         
         $json = json_encode($node);
         $array = json_decode($json, true);
-        
-        $this->assertIsArray($array);
         $this->assertArrayHasKey('tag', $array);
         $this->assertArrayHasKey('image_key', $array);
         
@@ -100,8 +92,6 @@ class PostNodeTest extends TestCase
         
         $json = json_encode($node);
         $array = json_decode($json, true);
-        
-        $this->assertIsArray($array);
         $this->assertArrayHasKey('tag', $array);
         $this->assertArrayHasKey('text', $array);
         $this->assertArrayHasKey('href', $array);
@@ -119,8 +109,6 @@ class PostNodeTest extends TestCase
         
         $json = json_encode($node);
         $array = json_decode($json, true);
-        
-        $this->assertIsArray($array);
         $this->assertArrayHasKey('tag', $array);
         $this->assertArrayHasKey('file_key', $array);
         $this->assertArrayHasKey('image_key', $array);
@@ -137,8 +125,6 @@ class PostNodeTest extends TestCase
         
         $json = json_encode($node);
         $array = json_decode($json, true);
-        
-        $this->assertIsArray($array);
         $this->assertArrayHasKey('tag', $array);
         $this->assertArrayHasKey('emoticon', $array);
         

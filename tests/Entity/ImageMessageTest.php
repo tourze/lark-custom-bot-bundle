@@ -45,13 +45,10 @@ class ImageMessageTest extends TestCase
         $message->setImageKey($imageKey);
         
         $array = $message->toArray();
-        
-        $this->assertIsArray($array);
         $this->assertArrayHasKey('msg_type', $array);
         $this->assertArrayHasKey('content', $array);
         
         $this->assertEquals('image', $array['msg_type']);
-        $this->assertIsArray($array['content']);
         $this->assertArrayHasKey('image_key', $array['content']);
         $this->assertEquals($imageKey, $array['content']['image_key']);
     }

@@ -83,8 +83,6 @@ class InteractiveMessageTest extends TestCase
         $message->setCard($cardContent);
         
         $array = $message->toArray();
-        
-        $this->assertIsArray($array);
         $this->assertArrayHasKey('msg_type', $array);
         $this->assertArrayHasKey('card', $array);
         

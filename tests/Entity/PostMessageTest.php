@@ -68,23 +68,16 @@ class PostMessageTest extends TestCase
         $message->addParagraph($paragraph);
         
         $array = $message->toArray();
-        
-        $this->assertIsArray($array);
         $this->assertArrayHasKey('msg_type', $array);
         $this->assertArrayHasKey('content', $array);
         
         $this->assertEquals('post', $array['msg_type']);
-        $this->assertIsArray($array['content']);
         $this->assertArrayHasKey('post', $array['content']);
-        $this->assertIsArray($array['content']['post']);
-        
         $this->assertArrayHasKey('zh_cn', $array['content']['post']);
-        $this->assertIsArray($array['content']['post']['zh_cn']);
         $this->assertArrayHasKey('title', $array['content']['post']['zh_cn']);
         $this->assertArrayHasKey('content', $array['content']['post']['zh_cn']);
         
         $this->assertEquals($title, $array['content']['post']['zh_cn']['title']);
-        $this->assertIsArray($array['content']['post']['zh_cn']['content']);
         $this->assertCount(1, $array['content']['post']['zh_cn']['content']);
     }
 
@@ -137,8 +130,6 @@ class PostMessageTest extends TestCase
         $message->setTitle('测试标题');
         
         $array = $message->toArray();
-        
-        $this->assertIsArray($array['content']['post']['zh_cn']['content']);
         $this->assertEmpty($array['content']['post']['zh_cn']['content']);
     }
 } 

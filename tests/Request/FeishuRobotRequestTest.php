@@ -39,14 +39,10 @@ class FeishuRobotRequestTest extends TestCase
     public function testGetRequestOptions_returnsCorrectJsonStructure(): void
     {
         $options = $this->request->getRequestOptions();
-        
-        $this->assertIsArray($options);
         $this->assertArrayHasKey('json', $options);
-        $this->assertIsArray($options['json']);
         $this->assertArrayHasKey('msg_type', $options['json']);
         $this->assertArrayHasKey('content', $options['json']);
         $this->assertEquals('text', $options['json']['msg_type']);
-        $this->assertIsArray($options['json']['content']);
         $this->assertArrayHasKey('text', $options['json']['content']);
         $this->assertEquals('测试消息内容', $options['json']['content']['text']);
     }

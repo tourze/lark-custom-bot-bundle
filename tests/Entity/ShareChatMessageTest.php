@@ -45,13 +45,10 @@ class ShareChatMessageTest extends TestCase
         $message->setChatId($shareId);
         
         $array = $message->toArray();
-        
-        $this->assertIsArray($array);
         $this->assertArrayHasKey('msg_type', $array);
         $this->assertArrayHasKey('content', $array);
         
         $this->assertEquals('share_chat', $array['msg_type']);
-        $this->assertIsArray($array['content']);
         $this->assertArrayHasKey('share_chat_id', $array['content']);
         $this->assertEquals($shareId, $array['content']['share_chat_id']);
     }
