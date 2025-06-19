@@ -6,7 +6,7 @@ use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use LarkCustomBotBundle\Repository\InteractiveMessageRepository;
 
-#[ORM\Table(name: 'fcb_interactive_message')]
+#[ORM\Table(name: 'fcb_interactive_message', options: ['comment' => '飞书交互消息'])]
 #[ORM\Entity(repositoryClass: InteractiveMessageRepository::class)]
 class InteractiveMessage extends AbstractMessage
 {

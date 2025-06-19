@@ -6,7 +6,7 @@ use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use LarkCustomBotBundle\Repository\TextMessageRepository;
 
-#[ORM\Table(name: 'fcb_text_message')]
+#[ORM\Table(name: 'fcb_text_message', options: ['comment' => '飞书文本消息'])]
 #[ORM\Entity(repositoryClass: TextMessageRepository::class)]
 class TextMessage extends AbstractMessage
 {

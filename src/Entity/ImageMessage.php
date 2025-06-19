@@ -5,7 +5,7 @@ namespace LarkCustomBotBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use LarkCustomBotBundle\Repository\ImageMessageRepository;
 
-#[ORM\Table(name: 'fcb_image_message')]
+#[ORM\Table(name: 'fcb_image_message', options: ['comment' => '飞书图片消息'])]
 #[ORM\Entity(repositoryClass: ImageMessageRepository::class)]
 class ImageMessage extends AbstractMessage
 {

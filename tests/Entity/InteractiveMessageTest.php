@@ -2,7 +2,7 @@
 
 namespace LarkCustomBotBundle\Tests\Entity;
 
-use DateTime;
+use DateTimeImmutable;
 use LarkCustomBotBundle\Entity\InteractiveMessage;
 use LarkCustomBotBundle\Entity\WebhookUrl;
 use PHPUnit\Framework\TestCase;
@@ -111,7 +111,7 @@ class InteractiveMessageTest extends TestCase
     public function testCreateTimeHandling_shouldSetAndGetCorrectly(): void
     {
         $message = new InteractiveMessage();
-        $createTime = new DateTime();
+        $createTime = new DateTimeImmutable();
         
         $message->setCreateTime($createTime);
         
@@ -121,7 +121,7 @@ class InteractiveMessageTest extends TestCase
     public function testUpdateTimeHandling_shouldSetAndGetCorrectly(): void
     {
         $message = new InteractiveMessage();
-        $updateTime = new DateTime();
+        $updateTime = new DateTimeImmutable();
         
         $message->setUpdateTime($updateTime);
         

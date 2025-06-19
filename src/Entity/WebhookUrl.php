@@ -10,8 +10,9 @@ use Tourze\DoctrineIndexedBundle\Attribute\IndexColumn;
 use Tourze\DoctrineTimestampBundle\Traits\TimestampableAware;
 use Tourze\DoctrineTrackBundle\Attribute\TrackColumn;
 
+#[ORM\Table(name: 'fcb_webhook_url', options: ['comment' => '飞书机器人Webhook地址'])]
 #[ORM\Entity(repositoryClass: WebhookUrlRepository::class)]
-class WebhookUrl implements AdminArrayInterface
+class WebhookUrl implements AdminArrayInterface, \Stringable
 {
     use TimestampableAware;
     #[ORM\Id]
@@ -84,7 +85,14 @@ class WebhookUrl implements AdminArrayInterface
         $this->valid = $valid;
 
         return $this;
-    }public function retrieveAdminArray(): array
+    }
+
+    public function __toString(): string
+    {
+        return $this->name;
+    }
+
+    public function retrieveAdminArray(): array
     {
         return [
             'id' => $this->getId(),

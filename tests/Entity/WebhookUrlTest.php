@@ -2,7 +2,7 @@
 
 namespace LarkCustomBotBundle\Tests\Entity;
 
-use DateTime;
+use DateTimeImmutable;
 use LarkCustomBotBundle\Entity\WebhookUrl;
 use PHPUnit\Framework\TestCase;
 
@@ -15,8 +15,8 @@ class WebhookUrlTest extends TestCase
         $url = 'https://open.feishu.cn/open-apis/bot/v2/hook/xxxxx';
         $remark = 'Test Remark';
         $valid = true;
-        $createTime = new DateTime();
-        $updateTime = new DateTime();
+        $createTime = new DateTimeImmutable();
+        $updateTime = new DateTimeImmutable();
 
         $webhook->setName($name);
         $webhook->setUrl($url);
@@ -46,8 +46,8 @@ class WebhookUrlTest extends TestCase
         $name = 'TestWebhook';
         $url = 'https://open.feishu.cn/open-apis/bot/v2/hook/xxxxx';
         $remark = 'Test Remark';
-        $createTime = new DateTime('2023-01-01 10:00:00');
-        $updateTime = new DateTime('2023-01-02 10:00:00');
+        $createTime = new DateTimeImmutable('2023-01-01 10:00:00');
+        $updateTime = new DateTimeImmutable('2023-01-02 10:00:00');
 
         $webhook->setName($name);
         $webhook->setUrl($url);

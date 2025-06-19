@@ -7,7 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Tourze\DoctrineTimestampBundle\Traits\TimestampableAware;
 
 #[ORM\MappedSuperclass]
-abstract class AbstractMessage 
+abstract class AbstractMessage implements \Stringable
 {
     use TimestampableAware;
     #[ORM\Id]
@@ -33,6 +33,13 @@ abstract class AbstractMessage
     {
         $this->webhookUrl = $webhookUrl;
         return $this;
-    }abstract public function getType(): string;
+    }
+
+    public function __toString(): string
+    {
+        return $this->getType() . '#' . $this->id;
+    }
+
+    abstract public function getType(): string;
     abstract public function toArray(): array;
 }

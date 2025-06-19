@@ -2,7 +2,7 @@
 
 namespace LarkCustomBotBundle\Tests\Entity;
 
-use DateTime;
+use DateTimeImmutable;
 use LarkCustomBotBundle\Entity\ShareChatMessage;
 use LarkCustomBotBundle\Entity\WebhookUrl;
 use PHPUnit\Framework\TestCase;
@@ -74,7 +74,7 @@ class ShareChatMessageTest extends TestCase
     public function testCreateTimeHandling_shouldSetAndGetCorrectly(): void
     {
         $message = new ShareChatMessage();
-        $createTime = new DateTime();
+        $createTime = new DateTimeImmutable();
         
         $message->setCreateTime($createTime);
         
@@ -84,7 +84,7 @@ class ShareChatMessageTest extends TestCase
     public function testUpdateTimeHandling_shouldSetAndGetCorrectly(): void
     {
         $message = new ShareChatMessage();
-        $updateTime = new DateTime();
+        $updateTime = new DateTimeImmutable();
         
         $message->setUpdateTime($updateTime);
         

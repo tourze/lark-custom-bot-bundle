@@ -7,7 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 use LarkCustomBotBundle\Repository\PostMessageRepository;
 use LarkCustomBotBundle\ValueObject\PostParagraph;
 
-#[ORM\Table(name: 'fcb_post_message')]
+#[ORM\Table(name: 'fcb_post_message', options: ['comment' => '飞书富文本消息'])]
 #[ORM\Entity(repositoryClass: PostMessageRepository::class)]
 class PostMessage extends AbstractMessage
 {

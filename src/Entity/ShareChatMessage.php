@@ -5,7 +5,7 @@ namespace LarkCustomBotBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use LarkCustomBotBundle\Repository\ShareChatMessageRepository;
 
-#[ORM\Table(name: 'fcb_share_chat_message')]
+#[ORM\Table(name: 'fcb_share_chat_message', options: ['comment' => '飞书群分享消息'])]
 #[ORM\Entity(repositoryClass: ShareChatMessageRepository::class)]
 class ShareChatMessage extends AbstractMessage 
 {
