@@ -17,7 +17,7 @@ class LarkRequestService extends ApiClient
 
     protected function getRequestMethod(RequestInterface $request): string
     {
-        return $request->getRequestMethod() ?: 'POST';
+        return $request->getRequestMethod() !== null ? $request->getRequestMethod() : 'POST';
     }
 
     protected function getRequestOptions(RequestInterface $request): ?array
@@ -30,7 +30,7 @@ class LarkRequestService extends ApiClient
         $json = Json::decode($response->getContent());
         $code = $json['code'] ?? 0;
         if ($code != 0) {
-            throw new HttpClientException($request, $response, $code['msg']?? '请求失败');
+            throw new HttpClientException($request, $response, $json['msg'] ?? '请求失败');
         }
         return $json;
     }
