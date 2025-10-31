@@ -10,16 +10,17 @@ use Tourze\DoctrineTimestampBundle\Traits\TimestampableAware;
 abstract class AbstractMessage implements \Stringable
 {
     use TimestampableAware;
+
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column(type: Types::INTEGER, options: ['comment' => 'ID'])]
-    private ?int $id = 0;
+    protected int $id = 0;
 
-    #[ORM\ManyToOne(targetEntity: WebhookUrl::class)]
+    #[ORM\ManyToOne(targetEntity: WebhookUrl::class, cascade: ['persist'])]
     #[ORM\JoinColumn(nullable: false)]
     protected WebhookUrl $webhookUrl;
 
-    public function getId(): ?int
+    public function getId(): int
     {
         return $this->id;
     }
@@ -29,10 +30,9 @@ abstract class AbstractMessage implements \Stringable
         return $this->webhookUrl;
     }
 
-    public function setWebhookUrl(WebhookUrl $webhookUrl): static
+    public function setWebhookUrl(WebhookUrl $webhookUrl): void
     {
         $this->webhookUrl = $webhookUrl;
-        return $this;
     }
 
     public function __toString(): string
@@ -41,5 +41,9 @@ abstract class AbstractMessage implements \Stringable
     }
 
     abstract public function getType(): string;
+
+    /**
+     * @return array<string, mixed>
+     */
     abstract public function toArray(): array;
 }

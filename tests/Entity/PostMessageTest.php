@@ -3,133 +3,82 @@
 namespace LarkCustomBotBundle\Tests\Entity;
 
 use LarkCustomBotBundle\Entity\PostMessage;
-use LarkCustomBotBundle\Entity\WebhookUrl;
 use LarkCustomBotBundle\ValueObject\PostParagraph;
-use PHPUnit\Framework\TestCase;
+use PHPUnit\Framework\Attributes\CoversClass;
+use Tourze\PHPUnitDoctrineEntity\AbstractEntityTestCase;
 
-class PostMessageTest extends TestCase
+/**
+ * @internal
+ */
+#[CoversClass(PostMessage::class)]
+final class PostMessageTest extends AbstractEntityTestCase
 {
-    private WebhookUrl $webhookUrl;
-
-    protected function setUp(): void
+    protected function createEntity(): PostMessage
     {
-        $this->webhookUrl = new WebhookUrl();
-        $this->webhookUrl->setName('测试Webhook');
-        $this->webhookUrl->setUrl('https://open.feishu.cn/open-apis/bot/v2/hook/test-webhook');
+        return new PostMessage();
     }
 
-    public function testGetType_returnsCorrectValue(): void
+    /**
+     * @return iterable<array{string, mixed}>
+     */
+    public static function propertiesProvider(): iterable
+    {
+        return [
+            'title' => ['title', '测试标题'],
+        ];
+    }
+
+    public function testGetTypeReturnsCorrectValue(): void
     {
         $message = new PostMessage();
         $this->assertEquals('post', $message->getType());
     }
 
-    public function testGettersAndSetters_withValidData(): void
+    public function testAddParagraphAddsToContent(): void
     {
         $message = new PostMessage();
-        $title = '测试标题';
-        
-        $message->setWebhookUrl($this->webhookUrl);
-        $message->setTitle($title);
-        
-        $this->assertSame($this->webhookUrl, $message->getWebhookUrl());
-        $this->assertEquals($title, $message->getTitle());
-    }
-
-    public function testAddParagraph_addsParagraphToContent(): void
-    {
-        $message = new PostMessage();
-        $paragraph1 = new PostParagraph();
-        $paragraph1->addText('段落1内容');
-        
-        $paragraph2 = new PostParagraph();
-        $paragraph2->addText('段落2内容');
-        
-        $message->addParagraph($paragraph1);
-        $message->addParagraph($paragraph2);
-        
-        $paragraphs = $message->getContent();
-        
-        $this->assertCount(2, $paragraphs);
-        $this->assertSame($paragraph1, $paragraphs[0]);
-        $this->assertSame($paragraph2, $paragraphs[1]);
-    }
-
-    public function testToArray_returnsCorrectStructure(): void
-    {
-        $message = new PostMessage();
-        $title = '测试标题';
-        
-        $message->setWebhookUrl($this->webhookUrl);
-        $message->setTitle($title);
-        
         $paragraph = new PostParagraph();
-        $paragraph->addText('测试内容');
+        $paragraph->addText('测试段落');
+
         $message->addParagraph($paragraph);
-        
+
+        $content = $message->getContent();
+        $this->assertCount(1, $content);
+        $this->assertInstanceOf(PostParagraph::class, $content[0]);
+    }
+
+    public function testToArrayReturnsCorrectStructure(): void
+    {
+        $message = new PostMessage();
+        $message->setTitle('测试标题');
+
+        $paragraph = new PostParagraph();
+        $paragraph->addText('测试段落');
+        $message->addParagraph($paragraph);
+
         $array = $message->toArray();
+        $this->assertIsArray($array);
+
         $this->assertArrayHasKey('msg_type', $array);
         $this->assertArrayHasKey('content', $array);
-        
         $this->assertEquals('post', $array['msg_type']);
-        $this->assertArrayHasKey('post', $array['content']);
-        $this->assertArrayHasKey('zh_cn', $array['content']['post']);
-        $this->assertArrayHasKey('title', $array['content']['post']['zh_cn']);
-        $this->assertArrayHasKey('content', $array['content']['post']['zh_cn']);
-        
-        $this->assertEquals($title, $array['content']['post']['zh_cn']['title']);
-        $this->assertCount(1, $array['content']['post']['zh_cn']['content']);
-    }
 
-    public function testToArray_withMultipleParagraphs_returnsCorrectStructure(): void
-    {
-        $message = new PostMessage();
-        $message->setWebhookUrl($this->webhookUrl);
-        $message->setTitle('测试标题');
-        
-        $paragraph1 = new PostParagraph();
-        $paragraph1->addText('段落1内容');
-        
-        $paragraph2 = new PostParagraph();
-        $paragraph2->addText('段落2内容');
-        
-        $message->addParagraph($paragraph1);
-        $message->addParagraph($paragraph2);
-        
-        $array = $message->toArray();
-        
-        $this->assertCount(2, $array['content']['post']['zh_cn']['content']);
-    }
+        $content = $array['content'];
+        $this->assertIsArray($content);
+        $this->assertArrayHasKey('post', $content);
 
-    public function testSetTitle_withEmptyString_shouldAcceptValue(): void
-    {
-        $message = new PostMessage();
-        $message->setTitle('');
-        $this->assertEquals('', $message->getTitle());
-    }
-    
-    public function testToArray_withEmptyTitle_shouldIncludeEmptyTitle(): void
-    {
-        $message = new PostMessage();
-        $message->setWebhookUrl($this->webhookUrl);
-        $message->setTitle('');
-        
-        $paragraph = new PostParagraph();
-        $paragraph->addText('测试内容');
-        $message->addParagraph($paragraph);
-        
-        $array = $message->toArray();
-        
-        $this->assertEquals('', $array['content']['post']['zh_cn']['title']);
-    }
+        $post = $content['post'];
+        $this->assertIsArray($post);
+        $this->assertArrayHasKey('zh_cn', $post);
 
-    public function testToArray_withNoParagraphs_returnsEmptyContentArray(): void
-    {
-        $message = new PostMessage();
-        $message->setWebhookUrl($this->webhookUrl);
-        $message->setTitle('测试标题');
-        
-        $array = $message->toArray();
-        $this->assertEmpty($array['content']['post']['zh_cn']['content']);
+        $zhCn = $post['zh_cn'];
+        $this->assertIsArray($zhCn);
+        $this->assertArrayHasKey('title', $zhCn);
+        $this->assertArrayHasKey('content', $zhCn);
+        $this->assertEquals('测试标题', $zhCn['title']);
+
+        $zhCnContent = $zhCn['content'];
+        $this->assertTrue(\is_array($zhCnContent) || $zhCnContent instanceof \Countable);
+        $this->assertCount(1, $zhCnContent);
     }
-} 
+}

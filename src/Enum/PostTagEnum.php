@@ -16,12 +16,12 @@ enum PostTagEnum: string implements Itemable, Labelable, Selectable
     use ItemTrait;
     use SelectTrait;
 
-    case TEXT = 'text';           // 纯文本
-    case A = 'a';                 // 超链接
-    case AT = 'at';               // @用户
-    case IMG = 'img';             // 图片
-    case MEDIA = 'media';         // 媒体文件
-    case EMOTION = 'emotion';     // 表情
+    case TEXT = 'text';
+    case A = 'a';
+    case AT = 'at';
+    case IMG = 'img';
+    case MEDIA = 'media';
+    case EMOTION = 'emotion';
 
     public function getLabel(): string
     {

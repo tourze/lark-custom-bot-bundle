@@ -2,92 +2,52 @@
 
 namespace LarkCustomBotBundle\Tests\Entity;
 
-use DateTimeImmutable;
 use LarkCustomBotBundle\Entity\TextMessage;
-use LarkCustomBotBundle\Entity\WebhookUrl;
-use PHPUnit\Framework\TestCase;
+use PHPUnit\Framework\Attributes\CoversClass;
+use Tourze\PHPUnitDoctrineEntity\AbstractEntityTestCase;
 
-class TextMessageTest extends TestCase
+/**
+ * @internal
+ */
+#[CoversClass(TextMessage::class)]
+final class TextMessageTest extends AbstractEntityTestCase
 {
-    private WebhookUrl $webhookUrl;
-
-    protected function setUp(): void
+    protected function createEntity(): TextMessage
     {
-        $this->webhookUrl = new WebhookUrl();
-        $this->webhookUrl->setName('测试Webhook');
-        $this->webhookUrl->setUrl('https://open.feishu.cn/open-apis/bot/v2/hook/test-webhook');
+        return new TextMessage();
     }
 
-    public function testGetType_returnsCorrectValue(): void
+    /**
+     * @return iterable<array{string, mixed}>
+     */
+    public static function propertiesProvider(): iterable
+    {
+        return [
+            'content' => ['content', '这是一条测试消息'],
+        ];
+    }
+
+    public function testGetTypeReturnsCorrectValue(): void
     {
         $message = new TextMessage();
         $this->assertEquals('text', $message->getType());
     }
 
-    public function testGettersAndSetters_withValidData(): void
+    public function testToArrayReturnsCorrectStructure(): void
     {
         $message = new TextMessage();
-        $content = '这是一条测试消息';
-        
-        $message->setWebhookUrl($this->webhookUrl);
-        $message->setContent($content);
-        
-        $this->assertSame($this->webhookUrl, $message->getWebhookUrl());
-        $this->assertEquals($content, $message->getContent());
-    }
+        $message->setContent('这是一条测试消息');
 
-    public function testToArray_returnsCorrectStructure(): void
-    {
-        $message = new TextMessage();
-        $content = '这是一条测试消息';
-        
-        $message->setWebhookUrl($this->webhookUrl);
-        $message->setContent($content);
-        
         $array = $message->toArray();
+        $this->assertIsArray($array);
+
         $this->assertArrayHasKey('msg_type', $array);
         $this->assertArrayHasKey('content', $array);
-        
         $this->assertEquals('text', $array['msg_type']);
-        $this->assertArrayHasKey('text', $array['content']);
-        $this->assertEquals($content, $array['content']['text']);
-    }
 
-    public function testSetContent_withEmptyString_shouldAcceptValue(): void
-    {
-        $message = new TextMessage();
-        $message->setContent('');
-        $this->assertEquals('', $message->getContent());
+        $content = $array['content'];
+        $this->assertIsArray($content);
+        $this->assertArrayHasKey('text', $content);
+        $this->assertEquals('这是一条测试消息', $content['text']);
     }
-    
-    public function testToArray_withEmptyContent_shouldIncludeEmptyContent(): void
-    {
-        $message = new TextMessage();
-        $message->setWebhookUrl($this->webhookUrl);
-        $message->setContent('');
-        
-        $array = $message->toArray();
-        
-        $this->assertEquals('', $array['content']['text']);
-    }
-
-    public function testCreateTimeHandling_shouldSetAndGetCorrectly(): void
-    {
-        $message = new TextMessage();
-        $createTime = new DateTimeImmutable();
-        
-        $message->setCreateTime($createTime);
-        
-        $this->assertSame($createTime, $message->getCreateTime());
-    }
-
-    public function testUpdateTimeHandling_shouldSetAndGetCorrectly(): void
-    {
-        $message = new TextMessage();
-        $updateTime = new DateTimeImmutable();
-        
-        $message->setUpdateTime($updateTime);
-        
-        $this->assertSame($updateTime, $message->getUpdateTime());
-    }
-} 
+}

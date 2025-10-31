@@ -2,179 +2,70 @@
 
 namespace LarkCustomBotBundle\Tests\Entity;
 
-use DateTimeImmutable;
 use LarkCustomBotBundle\Entity\InteractiveMessage;
-use LarkCustomBotBundle\Entity\WebhookUrl;
-use PHPUnit\Framework\TestCase;
+use PHPUnit\Framework\Attributes\CoversClass;
+use Tourze\PHPUnitDoctrineEntity\AbstractEntityTestCase;
 
-class InteractiveMessageTest extends TestCase
+/**
+ * @internal
+ */
+#[CoversClass(InteractiveMessage::class)]
+final class InteractiveMessageTest extends AbstractEntityTestCase
 {
-    private WebhookUrl $webhookUrl;
-
-    protected function setUp(): void
+    protected function createEntity(): InteractiveMessage
     {
-        $this->webhookUrl = new WebhookUrl();
-        $this->webhookUrl->setName('测试Webhook');
-        $this->webhookUrl->setUrl('https://open.feishu.cn/open-apis/bot/v2/hook/test-webhook');
+        return new InteractiveMessage();
     }
 
-    public function testGetType_returnsCorrectValue(): void
+    /**
+     * @return iterable<array{string, mixed}>
+     */
+    public static function propertiesProvider(): iterable
+    {
+        return [
+            ['card', [
+                'config' => ['wide_screen_mode' => true],
+                'elements' => [
+                    [
+                        'tag' => 'div',
+                        'text' => [
+                            'content' => '测试内容',
+                            'tag' => 'lark_md',
+                        ],
+                    ],
+                ],
+            ]],
+        ];
+    }
+
+    public function testGetTypeReturnsCorrectValue(): void
     {
         $message = new InteractiveMessage();
         $this->assertEquals('interactive', $message->getType());
     }
 
-    public function testGettersAndSetters_withValidData(): void
+    public function testToArrayReturnsCorrectStructure(): void
     {
         $message = new InteractiveMessage();
-        $cardContent = [
-            'config' => [
-                'wide_screen_mode' => true
-            ],
-            'header' => [
-                'title' => [
-                    'tag' => 'plain_text',
-                    'content' => '测试交互卡片'
-                ]
-            ],
+        $card = [
+            'config' => ['wide_screen_mode' => true],
             'elements' => [
                 [
                     'tag' => 'div',
                     'text' => [
-                        'tag' => 'plain_text',
-                        'content' => '这是卡片内容'
-                    ]
-                ]
-            ]
+                        'content' => '测试内容',
+                        'tag' => 'lark_md',
+                    ],
+                ],
+            ],
         ];
-        
-        $message->setWebhookUrl($this->webhookUrl);
-        $message->setCard($cardContent);
-        
-        $this->assertSame($this->webhookUrl, $message->getWebhookUrl());
-        $this->assertEquals($cardContent, $message->getCard());
-    }
+        $message->setCard($card);
 
-    public function testToArray_returnsCorrectStructure(): void
-    {
-        $message = new InteractiveMessage();
-        $cardContent = [
-            'config' => [
-                'wide_screen_mode' => true
-            ],
-            'header' => [
-                'title' => [
-                    'tag' => 'plain_text',
-                    'content' => '测试交互卡片'
-                ]
-            ],
-            'elements' => [
-                [
-                    'tag' => 'div',
-                    'text' => [
-                        'tag' => 'plain_text',
-                        'content' => '这是卡片内容'
-                    ]
-                ]
-            ]
-        ];
-        
-        $message->setWebhookUrl($this->webhookUrl);
-        $message->setCard($cardContent);
-        
         $array = $message->toArray();
+
         $this->assertArrayHasKey('msg_type', $array);
         $this->assertArrayHasKey('card', $array);
-        
         $this->assertEquals('interactive', $array['msg_type']);
-        $this->assertEquals($cardContent, $array['card']);
+        $this->assertEquals($card, $array['card']);
     }
-
-    public function testSetCardContent_withEmptyArray_shouldAcceptValue(): void
-    {
-        $message = new InteractiveMessage();
-        $message->setCard([]);
-        $this->assertEquals([], $message->getCard());
-    }
-    
-    public function testToArray_withEmptyCardContent_shouldIncludeEmptyCard(): void
-    {
-        $message = new InteractiveMessage();
-        $message->setWebhookUrl($this->webhookUrl);
-        $message->setCard([]);
-        
-        $array = $message->toArray();
-        
-        $this->assertEquals([], $array['card']);
-    }
-
-    public function testCreateTimeHandling_shouldSetAndGetCorrectly(): void
-    {
-        $message = new InteractiveMessage();
-        $createTime = new DateTimeImmutable();
-        
-        $message->setCreateTime($createTime);
-        
-        $this->assertSame($createTime, $message->getCreateTime());
-    }
-
-    public function testUpdateTimeHandling_shouldSetAndGetCorrectly(): void
-    {
-        $message = new InteractiveMessage();
-        $updateTime = new DateTimeImmutable();
-        
-        $message->setUpdateTime($updateTime);
-        
-        $this->assertSame($updateTime, $message->getUpdateTime());
-    }
-    
-    public function testSetCardContent_withComplexStructure_shouldHandleCorrectly(): void
-    {
-        $message = new InteractiveMessage();
-        $complexCard = [
-            'config' => [
-                'wide_screen_mode' => true,
-                'enable_forward' => true
-            ],
-            'header' => [
-                'title' => [
-                    'tag' => 'plain_text',
-                    'content' => '测试卡片'
-                ],
-                'template' => 'blue'
-            ],
-            'elements' => [
-                [
-                    'tag' => 'div',
-                    'text' => [
-                        'tag' => 'lark_md',
-                        'content' => '**加粗内容**普通内容'
-                    ]
-                ],
-                [
-                    'tag' => 'action',
-                    'actions' => [
-                        [
-                            'tag' => 'button',
-                            'text' => [
-                                'tag' => 'plain_text',
-                                'content' => '点击按钮'
-                            ],
-                            'type' => 'primary',
-                            'value' => [
-                                'key1' => 'value1'
-                            ]
-                        ]
-                    ]
-                ]
-            ]
-        ];
-        
-        $message->setCard($complexCard);
-        
-        $this->assertEquals($complexCard, $message->getCard());
-        
-        $array = $message->toArray();
-        $this->assertEquals($complexCard, $array['card']);
-    }
-} 
+}

@@ -9,7 +9,12 @@ class FeishuRobotRequest extends ApiRequest
 {
     public function getRequestPath(): string
     {
-        return $this->getMessage()->getWebhookUrl()->getUrl();
+        $url = $this->getMessage()->getWebhookUrl()->getUrl();
+        if (null === $url) {
+            throw new \InvalidArgumentException('Webhook URL cannot be null');
+        }
+
+        return $url;
     }
 
     public function getRequestOptions(): ?array

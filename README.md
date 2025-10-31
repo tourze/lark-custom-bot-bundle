@@ -1,10 +1,20 @@
 # Lark Custom Bot Bundle
 
-[![version](https://img.shields.io/badge/version-0.1.0-blue.svg)]() [![license: MIT](https://img.shields.io/badge/license-MIT-green.svg)]()
+[English](README.md) | [中文](README.zh-CN.md)
+
+[![Latest Version](https://img.shields.io/packagist/v/tourze/lark-custom-bot-bundle.svg?style=flat-square)](https://packagist.org/packages/tourze/lark-custom-bot-bundle)
+[![Total Downloads](https://img.shields.io/packagist/dt/tourze/lark-custom-bot-bundle.svg?style=flat-square)](https://packagist.org/packages/tourze/lark-custom-bot-bundle)
+[![License](https://img.shields.io/badge/license-MIT-green.svg?style=flat-square)](LICENSE)
+
+[![PHP Version](https://img.shields.io/packagist/php-v/tourze/lark-custom-bot-bundle.svg?style=flat-square)](https://packagist.org/packages/tourze/lark-custom-bot-bundle)
+[![Build Status](https://img.shields.io/github/actions/workflow/status/tourze/php-monorepo/ci.yml?style=flat-square)](https://github.com/tourze/php-monorepo/actions)
+[![Coverage Status](https://img.shields.io/codecov/c/github/tourze/php-monorepo.svg?style=flat-square)](https://codecov.io/gh/tourze/php-monorepo)
 
 ## Introduction
 
-This Symfony bundle enables integration and management of Lark (Feishu) custom bots, supporting multiple message types (text, image, share chat, post, interactive card) with unified entity management and automated message delivery.
+This Symfony bundle enables integration and management of Lark (Feishu) custom bots, 
+supporting multiple message types (text, image, share chat, post, interactive card) 
+with unified entity management and automated message delivery.
 
 ## Features
 
@@ -14,13 +24,13 @@ This Symfony bundle enables integration and management of Lark (Feishu) custom b
 - Automated message sending (entity persistence triggers push)
 - Extensible entity design for easy customization
 
-## Installation
-
-### Requirements
+## Requirements
 
 - PHP >= 8.1
-- Symfony >= 6.4
-- Doctrine ORM >= 2.20
+- Symfony >= 7.3
+- Doctrine ORM >= 3.0
+
+## Installation
 
 ### Install
 
@@ -63,6 +73,69 @@ $entityManager->flush();
 ```
 
 ### For image, post, and card messages, refer to the entity design documentation
+
+## Advanced Usage
+
+### Custom Message Types
+
+You can extend the base `AbstractMessage` class to create custom message types:
+
+```php
+use LarkCustomBotBundle\Entity\AbstractMessage;
+
+class CustomMessage extends AbstractMessage
+{
+    public function getType(): string
+    {
+        return 'custom';
+    }
+
+    public function toArray(): array
+    {
+        return [
+            'msg_type' => $this->getType(),
+            'content' => [
+                // Your custom message content
+            ],
+        ];
+    }
+}
+```
+
+### Webhook Management
+
+Manage multiple webhook configurations for different scenarios:
+
+```php
+// Development bot
+$devWebhook = new WebhookUrl();
+$devWebhook->setName('Dev Notifications');
+$devWebhook->setUrl('https://open.feishu.cn/open-apis/bot/v2/hook/dev-xxx');
+
+// Production bot
+$prodWebhook = new WebhookUrl();
+$prodWebhook->setName('Prod Alerts');
+$prodWebhook->setUrl('https://open.feishu.cn/open-apis/bot/v2/hook/prod-xxx');
+```
+
+### Event Listener Customization
+
+The bundle includes an event listener that automatically sends messages. 
+You can customize or disable this behavior in your services configuration.
+
+### Message Validation
+
+All message entities include built-in validation constraints. 
+Ensure your data passes validation before persisting:
+
+```php
+use Symfony\Component\Validator\Validator\ValidatorInterface;
+
+$violations = $validator->validate($textMessage);
+if (count($violations) > 0) {
+    // Handle validation errors
+}
+```
 
 ## Documentation
 

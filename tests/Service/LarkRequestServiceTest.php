@@ -2,29 +2,59 @@
 
 namespace LarkCustomBotBundle\Tests\Service;
 
+use Doctrine\Bundle\DoctrineBundle\DoctrineBundle;
 use HttpClientBundle\Exception\HttpClientException;
+use HttpClientBundle\HttpClientBundle;
 use HttpClientBundle\Request\RequestInterface;
+use LarkCustomBotBundle\LarkCustomBotBundle;
 use LarkCustomBotBundle\Service\LarkRequestService;
-use PHPUnit\Framework\TestCase;
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\RunTestsInSeparateProcesses;
+use Symfony\Bundle\FrameworkBundle\FrameworkBundle;
 use Symfony\Contracts\HttpClient\ResponseInterface;
+use Tourze\DoctrineAsyncInsertBundle\DoctrineAsyncInsertBundle;
+use Tourze\DoctrineTimestampBundle\DoctrineTimestampBundle;
+use Tourze\PHPUnitSymfonyKernelTest\AbstractIntegrationTestCase;
 
-class LarkRequestServiceTest extends TestCase
+/**
+ * @internal
+ */
+#[CoversClass(LarkRequestService::class)]
+#[RunTestsInSeparateProcesses] final class LarkRequestServiceTest extends AbstractIntegrationTestCase
 {
     private LarkRequestService $service;
 
-    protected function setUp(): void
+    /**
+     * @return array<class-string, array<string, bool>>
+     */
+    public static function configureBundles(): array
     {
-        $this->service = new LarkRequestService();
+        return [
+            FrameworkBundle::class => ['all' => true],
+            DoctrineBundle::class => ['all' => true],
+            HttpClientBundle::class => ['all' => true],
+            LarkCustomBotBundle::class => ['all' => true],
+            DoctrineTimestampBundle::class => ['all' => true],
+            DoctrineAsyncInsertBundle::class => ['all' => true],
+        ];
     }
 
-    public function testGetRequestUrl_shouldReturnRequestPath(): void
+    protected function onSetUp(): void
+    {
+        // 从容器中获取服务实例
+        $this->service = self::getService(LarkRequestService::class);
+    }
+
+    public function testGetRequestUrlShouldReturnRequestPath(): void
     {
         $request = $this->createMock(RequestInterface::class);
+        self::assertInstanceOf(RequestInterface::class, $request);
         $expectedPath = 'https://open.feishu.cn/open-apis/bot/v2/hook/test-webhook';
 
         $request->expects($this->once())
             ->method('getRequestPath')
-            ->willReturn($expectedPath);
+            ->willReturn($expectedPath)
+        ;
 
         $reflectionClass = new \ReflectionClass(LarkRequestService::class);
         $method = $reflectionClass->getMethod('getRequestUrl');
@@ -34,14 +64,16 @@ class LarkRequestServiceTest extends TestCase
         $this->assertEquals($expectedPath, $result);
     }
 
-    public function testGetRequestMethod_withMethodSpecified_shouldReturnSpecifiedMethod(): void
+    public function testGetRequestMethodWithMethodSpecifiedShouldReturnSpecifiedMethod(): void
     {
         $request = $this->createMock(RequestInterface::class);
+        self::assertInstanceOf(RequestInterface::class, $request);
         $expectedMethod = 'GET';
 
         $request->expects($this->exactly(2))
             ->method('getRequestMethod')
-            ->willReturn($expectedMethod);
+            ->willReturn($expectedMethod)
+        ;
 
         $reflectionClass = new \ReflectionClass(LarkRequestService::class);
         $method = $reflectionClass->getMethod('getRequestMethod');
@@ -51,13 +83,15 @@ class LarkRequestServiceTest extends TestCase
         $this->assertEquals($expectedMethod, $result);
     }
 
-    public function testGetRequestMethod_withNoMethodSpecified_shouldReturnDefaultMethod(): void
+    public function testGetRequestMethodWithNoMethodSpecifiedShouldReturnDefaultMethod(): void
     {
         $request = $this->createMock(RequestInterface::class);
+        self::assertInstanceOf(RequestInterface::class, $request);
 
         $request->expects($this->once())
             ->method('getRequestMethod')
-            ->willReturn(null);
+            ->willReturn(null)
+        ;
 
         $reflectionClass = new \ReflectionClass(LarkRequestService::class);
         $method = $reflectionClass->getMethod('getRequestMethod');
@@ -67,14 +101,16 @@ class LarkRequestServiceTest extends TestCase
         $this->assertEquals('POST', $result);
     }
 
-    public function testGetRequestOptions_shouldReturnRequestOptions(): void
+    public function testGetRequestOptionsShouldReturnRequestOptions(): void
     {
         $request = $this->createMock(RequestInterface::class);
+        self::assertInstanceOf(RequestInterface::class, $request);
         $expectedOptions = ['json' => ['key' => 'value']];
 
         $request->expects($this->once())
             ->method('getRequestOptions')
-            ->willReturn($expectedOptions);
+            ->willReturn($expectedOptions)
+        ;
 
         $reflectionClass = new \ReflectionClass(LarkRequestService::class);
         $method = $reflectionClass->getMethod('getRequestOptions');
@@ -84,17 +120,20 @@ class LarkRequestServiceTest extends TestCase
         $this->assertEquals($expectedOptions, $result);
     }
 
-    public function testFormatResponse_withSuccessResponse_shouldDecodeJson(): void
+    public function testFormatResponseWithSuccessResponseShouldDecodeJson(): void
     {
         $request = $this->createMock(RequestInterface::class);
+        self::assertInstanceOf(RequestInterface::class, $request);
         $response = $this->createMock(ResponseInterface::class);
+        self::assertInstanceOf(ResponseInterface::class, $response);
 
         $successJson = '{"code": 0, "data": {"key": "value"}}';
         $expectedResult = ['code' => 0, 'data' => ['key' => 'value']];
 
         $response->expects($this->once())
             ->method('getContent')
-            ->willReturn($successJson);
+            ->willReturn($successJson)
+        ;
 
         $reflectionClass = new \ReflectionClass(LarkRequestService::class);
         $method = $reflectionClass->getMethod('formatResponse');
@@ -104,16 +143,19 @@ class LarkRequestServiceTest extends TestCase
         $this->assertEquals($expectedResult, $result);
     }
 
-    public function testFormatResponse_withErrorResponse_shouldThrowException(): void
+    public function testFormatResponseWithErrorResponseShouldThrowException(): void
     {
         $request = $this->createMock(RequestInterface::class);
+        self::assertInstanceOf(RequestInterface::class, $request);
         $response = $this->createMock(ResponseInterface::class);
+        self::assertInstanceOf(ResponseInterface::class, $response);
 
         $errorJson = '{"code": 1, "msg": "Error message"}';
 
         $response->expects($this->atLeastOnce())
             ->method('getContent')
-            ->willReturn($errorJson);
+            ->willReturn($errorJson)
+        ;
 
         $reflectionClass = new \ReflectionClass(LarkRequestService::class);
         $method = $reflectionClass->getMethod('formatResponse');
@@ -123,10 +165,12 @@ class LarkRequestServiceTest extends TestCase
         $method->invokeArgs($this->service, [$request, $response]);
     }
 
-    public function testFormatResponse_withInvalidJson_shouldStillDecodeJson(): void
+    public function testFormatResponseWithInvalidJsonShouldStillDecodeJson(): void
     {
         $request = $this->createMock(RequestInterface::class);
+        self::assertInstanceOf(RequestInterface::class, $request);
         $response = $this->createMock(ResponseInterface::class);
+        self::assertInstanceOf(ResponseInterface::class, $response);
 
         // 无效的JSON格式应该由Yiisoft\Json\Json::decode正确处理
         // 这里我们测试一个缺少code字段的响应
@@ -135,7 +179,8 @@ class LarkRequestServiceTest extends TestCase
 
         $response->expects($this->once())
             ->method('getContent')
-            ->willReturn($invalidJson);
+            ->willReturn($invalidJson)
+        ;
 
         $reflectionClass = new \ReflectionClass(LarkRequestService::class);
         $method = $reflectionClass->getMethod('formatResponse');

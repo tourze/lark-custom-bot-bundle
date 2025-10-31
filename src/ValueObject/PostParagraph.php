@@ -12,6 +12,7 @@ class PostParagraph implements \JsonSerializable
     public function addNode(PostNode $node): self
     {
         $this->nodes[] = $node;
+
         return $this;
     }
 
@@ -45,6 +46,9 @@ class PostParagraph implements \JsonSerializable
         return $this->addNode(PostNode::emotion($emoticon));
     }
 
+    /**
+     * @return PostNode[]
+     */
     public function jsonSerialize(): array
     {
         return $this->nodes;

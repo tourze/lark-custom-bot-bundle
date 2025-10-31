@@ -6,18 +6,23 @@ use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use LarkCustomBotBundle\Repository\PostMessageRepository;
 use LarkCustomBotBundle\ValueObject\PostParagraph;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Table(name: 'fcb_post_message', options: ['comment' => '飞书富文本消息'])]
 #[ORM\Entity(repositoryClass: PostMessageRepository::class)]
 class PostMessage extends AbstractMessage
 {
     #[ORM\Column(type: Types::TEXT, options: ['comment' => '标题'])]
+    #[Assert\NotBlank]
+    #[Assert\Length(max: 65535)]
     private string $title;
 
     /**
      * @var PostParagraph[]
      */
     #[ORM\Column(type: Types::JSON, options: ['comment' => '富文本内容'])]
+    #[Assert\NotBlank]
+    #[Assert\Type(type: 'array')]
     private array $content = [];
 
     public function getTitle(): string
@@ -25,10 +30,9 @@ class PostMessage extends AbstractMessage
         return $this->title;
     }
 
-    public function setTitle(string $title): static
+    public function setTitle(string $title): void
     {
         $this->title = $title;
-        return $this;
     }
 
     /**
@@ -39,10 +43,9 @@ class PostMessage extends AbstractMessage
         return $this->content;
     }
 
-    public function addParagraph(PostParagraph $paragraph): static
+    public function addParagraph(PostParagraph $paragraph): void
     {
         $this->content[] = $paragraph;
-        return $this;
     }
 
     public function getType(): string
@@ -50,6 +53,9 @@ class PostMessage extends AbstractMessage
         return 'post';
     }
 
+    /**
+     * @return array<string, mixed>
+     */
     public function toArray(): array
     {
         return [
@@ -58,10 +64,10 @@ class PostMessage extends AbstractMessage
                 'post' => [
                     'zh_cn' => [
                         'title' => $this->title,
-                        'content' => $this->content
-                    ]
-                ]
-            ]
+                        'content' => $this->content,
+                    ],
+                ],
+            ],
         ];
     }
 }

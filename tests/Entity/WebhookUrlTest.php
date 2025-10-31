@@ -2,21 +2,45 @@
 
 namespace LarkCustomBotBundle\Tests\Entity;
 
-use DateTimeImmutable;
 use LarkCustomBotBundle\Entity\WebhookUrl;
-use PHPUnit\Framework\TestCase;
+use PHPUnit\Framework\Attributes\CoversClass;
+use Tourze\PHPUnitDoctrineEntity\AbstractEntityTestCase;
 
-class WebhookUrlTest extends TestCase
+/**
+ * @internal
+ */
+#[CoversClass(WebhookUrl::class)]
+final class WebhookUrlTest extends AbstractEntityTestCase
 {
-    public function testGettersAndSetters_withValidData(): void
+    protected function createEntity(): WebhookUrl
+    {
+        return new WebhookUrl();
+    }
+
+    /**
+     * @return iterable<array{string, mixed}>
+     */
+    public static function propertiesProvider(): iterable
+    {
+        return [
+            'name' => ['name', 'TestWebhook'],
+            'url' => ['url', 'https://open.feishu.cn/open-apis/bot/v2/hook/xxxxx'],
+            'remark' => ['remark', 'Test Remark'],
+            'valid' => ['valid', true],
+            'createTime' => ['createTime', new \DateTimeImmutable()],
+            'updateTime' => ['updateTime', new \DateTimeImmutable()],
+        ];
+    }
+
+    public function testGettersAndSettersWithValidData(): void
     {
         $webhook = new WebhookUrl();
         $name = 'TestWebhook';
         $url = 'https://open.feishu.cn/open-apis/bot/v2/hook/xxxxx';
         $remark = 'Test Remark';
         $valid = true;
-        $createTime = new DateTimeImmutable();
-        $updateTime = new DateTimeImmutable();
+        $createTime = new \DateTimeImmutable();
+        $updateTime = new \DateTimeImmutable();
 
         $webhook->setName($name);
         $webhook->setUrl($url);
@@ -33,21 +57,20 @@ class WebhookUrlTest extends TestCase
         $this->assertSame($updateTime, $webhook->getUpdateTime());
     }
 
-    public function testGetId_initialValue(): void
+    public function testGetIdInitialValue(): void
     {
         $webhook = new WebhookUrl();
-        // ID应该初始化为0（或null，取决于具体实现）
         $this->assertEquals(0, $webhook->getId());
     }
 
-    public function testRetrieveAdminArray_returnsCorrectStructure(): void
+    public function testRetrieveAdminArrayReturnsCorrectStructure(): void
     {
         $webhook = new WebhookUrl();
         $name = 'TestWebhook';
         $url = 'https://open.feishu.cn/open-apis/bot/v2/hook/xxxxx';
         $remark = 'Test Remark';
-        $createTime = new DateTimeImmutable('2023-01-01 10:00:00');
-        $updateTime = new DateTimeImmutable('2023-01-02 10:00:00');
+        $createTime = new \DateTimeImmutable('2023-01-01 10:00:00');
+        $updateTime = new \DateTimeImmutable('2023-01-02 10:00:00');
 
         $webhook->setName($name);
         $webhook->setUrl($url);
@@ -70,37 +93,36 @@ class WebhookUrlTest extends TestCase
         $this->assertEquals($updateTime->format('Y-m-d H:i:s'), $adminArray['updateTime']);
     }
 
-    public function testSetName_withEmptyString_shouldAcceptValue(): void
+    public function testSetNameWithEmptyStringShouldAcceptValue(): void
     {
         $webhook = new WebhookUrl();
         $webhook->setName('');
         $this->assertEquals('', $webhook->getName());
     }
 
-    public function testSetRemark_withNull_shouldAcceptValue(): void
+    public function testSetRemarkWithNullShouldAcceptValue(): void
     {
         $webhook = new WebhookUrl();
         $webhook->setRemark(null);
         $this->assertNull($webhook->getRemark());
     }
 
-    public function testSetValid_withNull_shouldAcceptValue(): void
+    public function testSetValidWithNullShouldAcceptValue(): void
     {
         $webhook = new WebhookUrl();
         $webhook->setValid(null);
         $this->assertNull($webhook->isValid());
     }
 
-    public function testRetrieveAdminArray_withNullDates_shouldHandleNullValues(): void
+    public function testRetrieveAdminArrayWithNullDatesShouldHandleNullValues(): void
     {
         $webhook = new WebhookUrl();
         $webhook->setName('TestWebhook');
         $webhook->setUrl('https://example.com');
-        // 不设置日期值，应该能够正确处理
 
         $adminArray = $webhook->retrieveAdminArray();
-        
+
         $this->assertNull($adminArray['createTime']);
         $this->assertNull($adminArray['updateTime']);
     }
-} 
+}

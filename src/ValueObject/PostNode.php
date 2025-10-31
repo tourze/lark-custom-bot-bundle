@@ -6,9 +6,12 @@ use LarkCustomBotBundle\Enum\PostTagEnum;
 
 class PostNode implements \JsonSerializable
 {
+    /**
+     * @param array<string, mixed> $attributes
+     */
     private function __construct(
         private readonly PostTagEnum $tag,
-        private readonly array $attributes = []
+        private readonly array $attributes = [],
     ) {
     }
 
@@ -21,7 +24,7 @@ class PostNode implements \JsonSerializable
     {
         return new self(PostTagEnum::A, [
             'text' => $text,
-            'href' => $href
+            'href' => $href,
         ]);
     }
 
@@ -29,14 +32,14 @@ class PostNode implements \JsonSerializable
     {
         return new self(PostTagEnum::AT, [
             'user_id' => $userId,
-            'user_name' => $userName
+            'user_name' => $userName,
         ]);
     }
 
     public static function image(string $imageKey): self
     {
         return new self(PostTagEnum::IMG, [
-            'image_key' => $imageKey
+            'image_key' => $imageKey,
         ]);
     }
 
@@ -44,22 +47,25 @@ class PostNode implements \JsonSerializable
     {
         return new self(PostTagEnum::MEDIA, [
             'file_key' => $fileKey,
-            'image_key' => $imageKey
+            'image_key' => $imageKey,
         ]);
     }
 
     public static function emotion(string $emoticon): self
     {
         return new self(PostTagEnum::EMOTION, [
-            'emoticon' => $emoticon
+            'emoticon' => $emoticon,
         ]);
     }
 
+    /**
+     * @return array<string, mixed>
+     */
     public function jsonSerialize(): array
     {
         return [
             'tag' => $this->tag->value,
-            ...$this->attributes
+            ...$this->attributes,
         ];
     }
 }
