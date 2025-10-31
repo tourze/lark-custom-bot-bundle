@@ -23,13 +23,14 @@
     "symfony/http-client-contracts": "^3.6",
     "symfony/http-kernel": "^7.3",
     "symfony/lock": "^7.3",
+    "symfony/property-access": "^7.3",
     "symfony/yaml": "^7.3",
     "tourze/arrayable": "1.*",
-    "tourze/doctrine-async-insert-bundle": "0.1.*",
+    "tourze/doctrine-async-insert-bundle": "1.0.*",
     "tourze/doctrine-indexed-bundle": "1.0.*",
-    "tourze/doctrine-timestamp-bundle": "0.0.*",
-    "tourze/doctrine-track-bundle": "0.1.*",
-    "tourze/easy-admin-menu-bundle": "0.1.*",
+    "tourze/doctrine-timestamp-bundle": "1.0.*",
+    "tourze/doctrine-track-bundle": "1.0.*",
+    "tourze/easy-admin-menu-bundle": "1.0.*",
     "tourze/enum-extra": "1.*",
     "tourze/http-client-bundle": "0.1.*",
     "yiisoft/json": "^1.0"
@@ -42,12 +43,12 @@
     "tourze/phpunit-base": "1.*",
     "tourze/phpunit-doctrine-entity": "1.*",
     "tourze/phpunit-enum": "1.*",
-    "tourze/phpunit-symfony-kernel-test": "1.*",
+    "tourze/phpunit-symfony-kernel-test": "1.0.*",
     "tourze/phpunit-symfony-unit-test": "1.*",
     "tourze/phpunit-symfony-web-test": "1.*",
     "tourze/symfony-aop-async-bundle": "0.0.*",
     "tourze/symfony-dependency-service-loader": "1.*",
-    "tourze/symfony-runtime-context-bundle": "0.0.*"
+    "tourze/symfony-runtime-context-bundle": "1.0.*"
   },
   "autoload": {
     "psr-4": {
