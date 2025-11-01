@@ -76,8 +76,7 @@ final class ImageMessageCrudControllerTest extends AbstractEasyAdminControllerTe
     #[Test]
     public function testIndexPageAccessible(): void
     {
-        $client = self::createClientWithDatabase();
-        $this->loginAsAdmin($client);
+        $client = self::createAuthenticatedClient();
 
         // 加载测试数据以避免其他测试中的警告
         $this->loadTestFixtures();
@@ -91,8 +90,7 @@ final class ImageMessageCrudControllerTest extends AbstractEasyAdminControllerTe
     #[Test]
     public function testNewPageAccessible(): void
     {
-        $client = self::createClientWithDatabase();
-        $this->loginAsAdmin($client);
+        $client = self::createAuthenticatedClient();
 
         $crawler = $client->request('GET', '/admin/lark-bot/image-message/new');
 
@@ -103,8 +101,7 @@ final class ImageMessageCrudControllerTest extends AbstractEasyAdminControllerTe
     #[Test]
     public function testFormValidationWithEmptyData(): void
     {
-        $client = self::createClientWithDatabase();
-        $this->loginAsAdmin($client);
+        $client = self::createAuthenticatedClient();
 
         $crawler = $client->request('POST', '/admin/lark-bot/image-message/new', [
             'ImageMessage' => [
@@ -164,8 +161,7 @@ final class ImageMessageCrudControllerTest extends AbstractEasyAdminControllerTe
      */
     protected function createAuthenticatedClientWithFixtures(): \Symfony\Bundle\FrameworkBundle\KernelBrowser
     {
-        $client = self::createClientWithDatabase();
-        $this->loginAsAdmin($client);
+        $client = self::createAuthenticatedClient();
 
         // 加载测试数据
         $this->loadTestFixtures();

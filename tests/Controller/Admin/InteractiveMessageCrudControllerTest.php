@@ -78,8 +78,7 @@ final class InteractiveMessageCrudControllerTest extends AbstractEasyAdminContro
     #[Test]
     public function testIndexPageAccessible(): void
     {
-        $client = self::createClientWithDatabase();
-        $this->loginAsAdmin($client);
+        $client = self::createAuthenticatedClient();
 
         // 加载测试数据以避免其他测试中的警告
         $this->loadTestFixtures();
@@ -93,8 +92,7 @@ final class InteractiveMessageCrudControllerTest extends AbstractEasyAdminContro
     #[Test]
     public function testNewPageAccessible(): void
     {
-        $client = self::createClientWithDatabase();
-        $this->loginAsAdmin($client);
+        $client = self::createAuthenticatedClient();
 
         $crawler = $client->request('GET', '/admin/lark-bot/interactive-message/new');
 
@@ -105,8 +103,7 @@ final class InteractiveMessageCrudControllerTest extends AbstractEasyAdminContro
     #[Test]
     public function testFormValidationWithEmptyData(): void
     {
-        $client = self::createClientWithDatabase();
-        $this->loginAsAdmin($client);
+        $client = self::createAuthenticatedClient();
 
         $crawler = $client->request('POST', '/admin/lark-bot/interactive-message/new', [
             'InteractiveMessage' => [
@@ -325,8 +322,7 @@ final class InteractiveMessageCrudControllerTest extends AbstractEasyAdminContro
     #[Test]
     public function testIndexRowActionLinksWork(): void
     {
-        $client = self::createClientWithDatabase();
-        $this->loginAsAdmin($client);
+        $client = self::createAuthenticatedClient();
 
         // 加载测试数据
         $this->loadTestFixtures();

@@ -74,8 +74,7 @@ final class ShareChatMessageCrudControllerTest extends AbstractEasyAdminControll
     #[Test]
     public function testIndexPageAccessible(): void
     {
-        $client = self::createClientWithDatabase();
-        $this->loginAsAdmin($client);
+        $client = self::createAuthenticatedClient();
 
         $crawler = $client->request('GET', '/admin/lark-bot/share-chat-message');
 
@@ -86,8 +85,7 @@ final class ShareChatMessageCrudControllerTest extends AbstractEasyAdminControll
     #[Test]
     public function testNewPageAccessible(): void
     {
-        $client = self::createClientWithDatabase();
-        $this->loginAsAdmin($client);
+        $client = self::createAuthenticatedClient();
 
         $crawler = $client->request('GET', '/admin/lark-bot/share-chat-message/new');
 
@@ -98,8 +96,7 @@ final class ShareChatMessageCrudControllerTest extends AbstractEasyAdminControll
     #[Test]
     public function testFormValidationWithEmptyData(): void
     {
-        $client = self::createClientWithDatabase();
-        $this->loginAsAdmin($client);
+        $client = self::createAuthenticatedClient();
 
         $crawler = $client->request('POST', '/admin/lark-bot/share-chat-message/new', [
             'ShareChatMessage' => [

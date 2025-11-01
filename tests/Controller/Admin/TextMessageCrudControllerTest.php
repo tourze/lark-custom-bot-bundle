@@ -74,8 +74,7 @@ final class TextMessageCrudControllerTest extends AbstractEasyAdminControllerTes
     #[Test]
     public function testIndexPageAccessible(): void
     {
-        $client = self::createClientWithDatabase();
-        $this->loginAsAdmin($client);
+        $client = self::createAuthenticatedClient();
 
         $crawler = $client->request('GET', '/admin/lark-bot/text-message');
 
@@ -86,8 +85,7 @@ final class TextMessageCrudControllerTest extends AbstractEasyAdminControllerTes
     #[Test]
     public function testNewPageAccessible(): void
     {
-        $client = self::createClientWithDatabase();
-        $this->loginAsAdmin($client);
+        $client = self::createAuthenticatedClient();
 
         $crawler = $client->request('GET', '/admin/lark-bot/text-message/new');
 
@@ -98,8 +96,7 @@ final class TextMessageCrudControllerTest extends AbstractEasyAdminControllerTes
     #[Test]
     public function testFormValidationWithEmptyData(): void
     {
-        $client = self::createClientWithDatabase();
-        $this->loginAsAdmin($client);
+        $client = self::createAuthenticatedClient();
 
         $crawler = $client->request('POST', '/admin/lark-bot/text-message/new', [
             'TextMessage' => [

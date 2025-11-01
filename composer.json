@@ -31,8 +31,8 @@
     "tourze/doctrine-timestamp-bundle": "1.0.*",
     "tourze/doctrine-track-bundle": "1.0.*",
     "tourze/easy-admin-menu-bundle": "1.0.*",
-    "tourze/enum-extra": "1.*",
-    "tourze/http-client-bundle": "0.1.*",
+    "tourze/enum-extra": "1.0.*",
+    "tourze/http-client-bundle": "1.0.*",
     "yiisoft/json": "^1.0"
   },
   "require-dev": {
@@ -47,7 +47,7 @@
     "tourze/phpunit-symfony-unit-test": "1.*",
     "tourze/phpunit-symfony-web-test": "1.*",
     "tourze/symfony-aop-async-bundle": "1.0.*",
-    "tourze/symfony-dependency-service-loader": "1.*",
+    "tourze/symfony-dependency-service-loader": "1.0.*",
     "tourze/symfony-runtime-context-bundle": "1.0.*"
   },
   "autoload": {

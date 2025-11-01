@@ -78,8 +78,7 @@ final class WebhookUrlCrudControllerTest extends AbstractEasyAdminControllerTest
     #[Test]
     public function testIndexPageAccessible(): void
     {
-        $client = self::createClientWithDatabase();
-        $this->loginAsAdmin($client);
+        $client = self::createAuthenticatedClient();
 
         $crawler = $client->request('GET', '/admin/lark-bot/webhook-url');
 
@@ -90,8 +89,7 @@ final class WebhookUrlCrudControllerTest extends AbstractEasyAdminControllerTest
     #[Test]
     public function testNewPageAccessible(): void
     {
-        $client = self::createClientWithDatabase();
-        $this->loginAsAdmin($client);
+        $client = self::createAuthenticatedClient();
 
         $crawler = $client->request('GET', '/admin/lark-bot/webhook-url/new');
 
@@ -102,8 +100,7 @@ final class WebhookUrlCrudControllerTest extends AbstractEasyAdminControllerTest
     #[Test]
     public function testFormValidationWithEmptyData(): void
     {
-        $client = self::createClientWithDatabase();
-        $this->loginAsAdmin($client);
+        $client = self::createAuthenticatedClient();
 
         $crawler = $client->request('POST', '/admin/lark-bot/webhook-url/new', [
             'WebhookUrl' => [
@@ -123,8 +120,7 @@ final class WebhookUrlCrudControllerTest extends AbstractEasyAdminControllerTest
     #[Test]
     public function testCreateWebhookUrlWithValidData(): void
     {
-        $client = self::createClientWithDatabase();
-        $this->loginAsAdmin($client);
+        $client = self::createAuthenticatedClient();
 
         $client->request('POST', '/admin/lark-bot/webhook-url/new', [
             'WebhookUrl' => [
