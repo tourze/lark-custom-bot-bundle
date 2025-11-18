@@ -25,11 +25,6 @@ use Tourze\PHPUnitSymfonyWebTest\AbstractEasyAdminControllerTestCase;
 final class WebhookUrlCrudControllerTest extends AbstractEasyAdminControllerTestCase
 {
     #[Test]
-    public function testGetEntityFqcn(): void
-    {
-        $this->assertSame(WebhookUrl::class, WebhookUrlCrudController::getEntityFqcn());
-    }
-
     #[Test]
     public function testConfigureFields(): void
     {

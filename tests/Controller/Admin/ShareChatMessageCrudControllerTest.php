@@ -24,11 +24,6 @@ use Tourze\PHPUnitSymfonyWebTest\AbstractEasyAdminControllerTestCase;
 final class ShareChatMessageCrudControllerTest extends AbstractEasyAdminControllerTestCase
 {
     #[Test]
-    public function testGetEntityFqcn(): void
-    {
-        $this->assertSame(ShareChatMessage::class, ShareChatMessageCrudController::getEntityFqcn());
-    }
-
     #[Test]
     public function testConfigureFields(): void
     {

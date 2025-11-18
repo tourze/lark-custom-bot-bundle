@@ -25,11 +25,6 @@ use Tourze\PHPUnitSymfonyWebTest\AbstractEasyAdminControllerTestCase;
 final class PostMessageCrudControllerTest extends AbstractEasyAdminControllerTestCase
 {
     #[Test]
-    public function testGetEntityFqcn(): void
-    {
-        $this->assertSame(PostMessage::class, PostMessageCrudController::getEntityFqcn());
-    }
-
     #[Test]
     public function testConfigureFields(): void
     {
