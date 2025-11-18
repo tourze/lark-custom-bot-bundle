@@ -10,7 +10,6 @@ use EasyCorp\Bundle\EasyAdminBundle\Field\DateTimeField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
 use LarkCustomBotBundle\Controller\Admin\ShareChatMessageCrudController;
-use LarkCustomBotBundle\Entity\ShareChatMessage;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\RunTestsInSeparateProcesses;
 use PHPUnit\Framework\Attributes\Test;
@@ -23,7 +22,6 @@ use Tourze\PHPUnitSymfonyWebTest\AbstractEasyAdminControllerTestCase;
 #[RunTestsInSeparateProcesses]
 final class ShareChatMessageCrudControllerTest extends AbstractEasyAdminControllerTestCase
 {
-    #[Test]
     #[Test]
     public function testConfigureFields(): void
     {

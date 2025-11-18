@@ -4,18 +4,15 @@ declare(strict_types=1);
 
 namespace LarkCustomBotBundle\Tests\Controller\Admin;
 
-use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Filters;
 use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\DateTimeField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
 use LarkCustomBotBundle\Controller\Admin\ImageMessageCrudController;
-use LarkCustomBotBundle\Entity\ImageMessage;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\RunTestsInSeparateProcesses;
 use PHPUnit\Framework\Attributes\Test;
-use Symfony\Component\DomCrawler\Crawler;
 use Tourze\PHPUnitSymfonyWebTest\AbstractEasyAdminControllerTestCase;
 
 /**
@@ -25,7 +22,6 @@ use Tourze\PHPUnitSymfonyWebTest\AbstractEasyAdminControllerTestCase;
 #[RunTestsInSeparateProcesses]
 final class ImageMessageCrudControllerTest extends AbstractEasyAdminControllerTestCase
 {
-    #[Test]
     #[Test]
     public function testConfigureFields(): void
     {

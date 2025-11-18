@@ -11,7 +11,6 @@ use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextareaField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
 use LarkCustomBotBundle\Controller\Admin\PostMessageCrudController;
-use LarkCustomBotBundle\Entity\PostMessage;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\RunTestsInSeparateProcesses;
 use PHPUnit\Framework\Attributes\Test;
@@ -24,7 +23,6 @@ use Tourze\PHPUnitSymfonyWebTest\AbstractEasyAdminControllerTestCase;
 #[RunTestsInSeparateProcesses]
 final class PostMessageCrudControllerTest extends AbstractEasyAdminControllerTestCase
 {
-    #[Test]
     #[Test]
     public function testConfigureFields(): void
     {
