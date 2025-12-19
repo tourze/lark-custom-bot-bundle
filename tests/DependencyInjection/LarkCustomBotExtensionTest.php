@@ -18,7 +18,6 @@ final class LarkCustomBotExtensionTest extends AbstractDependencyInjectionExtens
     {
         // 直接实例化扩展类
         // LarkCustomBotExtension 是一个扩展类，不是服务容器中的服务，直接实例化是正确的方式
-        // @phpstan-ignore integrationTest.noDirectInstantiationOfCoveredClass
         $this->extension = new LarkCustomBotExtension();
     }
 

@@ -2,18 +2,16 @@
 
 namespace LarkCustomBotBundle\Tests\Request;
 
+use HttpClientBundle\Test\RequestTestCase;
 use LarkCustomBotBundle\Entity\TextMessage;
 use LarkCustomBotBundle\Entity\WebhookUrl;
 use LarkCustomBotBundle\Request\FeishuRobotRequest;
 use PHPUnit\Framework\Attributes\CoversClass;
-use PHPUnit\Framework\Attributes\RunTestsInSeparateProcesses;
-use Tourze\PHPUnitSymfonyKernelTest\AbstractIntegrationTestCase;
 
 /**
  * @internal
  */
-#[CoversClass(FeishuRobotRequest::class)]
-#[RunTestsInSeparateProcesses] final class FeishuRobotRequestTest extends AbstractIntegrationTestCase
+#[CoversClass(FeishuRobotRequest::class)] final class FeishuRobotRequestTest extends RequestTestCase
 {
     private WebhookUrl $webhookUrl;
 
@@ -35,7 +33,6 @@ use Tourze\PHPUnitSymfonyKernelTest\AbstractIntegrationTestCase;
 
         // 直接实例化请求类
         // FeishuRobotRequest 是一个简单的请求类，不是服务容器中的服务，直接实例化是正确的方式
-        // @phpstan-ignore integrationTest.noDirectInstantiationOfCoveredClass
         $this->request = new FeishuRobotRequest();
         $this->request->setMessage($this->message);
     }

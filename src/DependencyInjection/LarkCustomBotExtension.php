@@ -4,7 +4,7 @@ namespace LarkCustomBotBundle\DependencyInjection;
 
 use Tourze\SymfonyDependencyServiceLoader\AutoExtension;
 
-class LarkCustomBotExtension extends AutoExtension
+final class LarkCustomBotExtension extends AutoExtension
 {
     protected function getConfigDir(): string
     {

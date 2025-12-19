@@ -11,7 +11,7 @@ use Tourze\PHPUnitSymfonyKernelTest\Attribute\AsRepository;
  * @extends ServiceEntityRepository<ShareChatMessage>
  */
 #[AsRepository(entityClass: ShareChatMessage::class)]
-class ShareChatMessageRepository extends ServiceEntityRepository
+final class ShareChatMessageRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
     {
